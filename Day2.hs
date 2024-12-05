@@ -1,5 +1,5 @@
-import System.IO
-import Data.List
+import System.IO ()
+import Data.List ()
 
 main :: IO ()
 main = do
@@ -21,15 +21,13 @@ safeReports x = [isSafe (isIncreasing report) report | report <- x]
 
 isSafe :: Bool -> [Int] -> Bool
 isSafe increasing [x] = True
-isSafe increasing (x:xs) = 
-    if (x - head xs) == 0 then False
-    else if abs (x - head xs) <= 3 && increasing == (isIncreasing [x, head xs]) then
-        True && isSafe increasing xs
-    else
-        False
+isSafe increasing (x:xs)
+  | (x - head xs) == 0 = False
+  | abs (x - head xs) <= 3 && increasing == isIncreasing [x, head xs] = isSafe increasing xs
+  | otherwise = False
 
 isIncreasing :: [Int] -> Bool
-isIncreasing x = x!!0 < x!!1
+isIncreasing x = head x < x!!1
 
 deleteAt :: Int -> [a] -> [a]
 deleteAt i x = take i x ++ drop (i+1) x
